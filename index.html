@@ -1,151 +1,0 @@
-<!doctype html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <meta name="theme-color" content="#0b1220" />
-  <meta name="description" content="موقع قرآن كريم احترافي: قراءة، استماع آية بآية، مفضلة، وضع ليلي، راديو قرآن، سبحة إلكترونية منبثقة، يعمل كموقع PWA." />
-  <title>القرآن الكريم — موقع احترافي</title>
-
-  <link rel="manifest" href="./manifest.json" />
-  <link rel="icon" href="./icons/icon-192.png" />
-  <link rel="apple-touch-icon" href="./icons/icon-192.png" />
-
-  <link rel="preconnect" href="https://api.alquran.cloud" crossorigin />
-  <link rel="stylesheet" href="./assets/styles.css" />
-</head>
-<body>
-  <a class="skip" href="#main">تخطي إلى المحتوى</a>
-
-  <!-- Top App Bar -->
-  <header class="topbar">
-    <div class="topbar__inner">
-      <button class="iconbtn" id="btnBack" title="رجوع" aria-label="رجوع">
-        <span class="i">←</span>
-      </button>
-
-      <div class="brand" role="banner">
-        <div class="brand__title">القرآن الكريم</div>
-        <div class="brand__subtitle" id="subtitle">قراءة • استماع • مفضلة • راديو • سبحة</div>
-      </div>
-
-      <div class="topbar__actions">
-        <button class="iconbtn" id="btnSearch" title="بحث" aria-label="بحث">
-          <span class="i">⌕</span>
-        </button>
-        <button class="iconbtn" id="btnTheme" title="تبديل المظهر" aria-label="تبديل المظهر">
-          <span class="i">☾</span>
-        </button>
-        <button class="iconbtn" id="btnMenu" title="القائمة" aria-label="القائمة">
-          <span class="i">☰</span>
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <!-- Drawer -->
-  <aside class="drawer" id="drawer" aria-hidden="true">
-    <div class="drawer__overlay" id="drawerOverlay"></div>
-    <nav class="drawer__panel" aria-label="القائمة">
-      <div class="drawer__head">
-        <div class="drawer__logo">📖</div>
-        <div>
-          <div class="drawer__title">القرآن الكريم</div>
-          <div class="drawer__desc">موقع مجاني بالكامل (Static) — يعمل على الاستضافة المجانية</div>
-        </div>
-      </div>
-
-      <a class="drawer__item" href="#/">
-        <span class="drawer__icon">🏠</span>
-        <span>الرئيسية</span>
-      </a>
-      <a class="drawer__item" href="#/surahs">
-        <span class="drawer__icon">🗂️</span>
-        <span>السور</span>
-      </a>
-      <a class="drawer__item" href="#/bookmarks">
-        <span class="drawer__icon">⭐</span>
-        <span>المفضلة</span>
-      </a>
-      <a class="drawer__item" href="#/radio">
-        <span class="drawer__icon">📻</span>
-        <span>راديو القرآن</span>
-      </a>
-      <a class="drawer__item" href="#/tasbeeh">
-        <span class="drawer__icon">📿</span>
-        <span>السبحة</span>
-      </a>
-      <a class="drawer__item" href="#/settings">
-        <span class="drawer__icon">⚙️</span>
-        <span>الإعدادات</span>
-      </a>
-
-      <div class="drawer__sep"></div>
-
-      <button class="drawer__item drawer__item--button" id="btnInstall">
-        <span class="drawer__icon">⬇️</span>
-        <span>تثبيت كتطبيق (PWA)</span>
-      </button>
-
-      <div class="drawer__foot">
-        <div class="muted">بيانات النص والتلاوة: AlQuran.cloud</div>
-        <div class="muted">الحفظ: LocalStorage على جهاز المستخدم</div>
-      </div>
-    </nav>
-  </aside>
-
-  <!-- Search Modal -->
-  <div class="modal" id="searchModal" aria-hidden="true" role="dialog" aria-label="بحث">
-    <div class="modal__overlay" id="searchOverlay"></div>
-    <div class="modal__panel">
-      <div class="modal__head">
-        <div class="modal__title">بحث سريع</div>
-        <button class="iconbtn" id="btnCloseSearch" aria-label="إغلاق"><span class="i">✕</span></button>
-      </div>
-      <div class="modal__body">
-        <div class="field">
-          <label for="searchInput">ابحث باسم السورة أو رقمها (بحث سريع)</label>
-          <input id="searchInput" type="text" placeholder="مثال: البقرة أو 2" autocomplete="off" />
-          <div class="hint">ملاحظة: البحث داخل الآيات متاح داخل صفحة السورة.</div>
-        </div>
-        <div class="searchResults" id="searchResults"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Main -->
-  <main id="main" class="main" tabindex="-1">
-    <div class="container">
-      <div id="app" class="app"></div>
-    </div>
-  </main>
-
-  <!-- Global mini player (audio) -->
-  <div class="miniPlayer" id="miniPlayer" aria-hidden="true">
-    <div class="miniPlayer__inner">
-      <button class="iconbtn" id="mpPlay" aria-label="تشغيل/إيقاف"><span class="i">▶</span></button>
-      <div class="miniPlayer__meta">
-        <div class="miniPlayer__title" id="mpTitle">جاهز للاستماع</div>
-        <div class="miniPlayer__sub" id="mpSub">اختر آية للاستماع</div>
-      </div>
-      <div class="miniPlayer__right">
-        <button class="iconbtn" id="mpPrev" aria-label="السابق"><span class="i">⟲</span></button>
-        <button class="iconbtn" id="mpNext" aria-label="التالي"><span class="i">⟳</span></button>
-        <button class="iconbtn" id="mpClose" aria-label="إغلاق"><span class="i">✕</span></button>
-      </div>
-    </div>
-    <audio id="audio" preload="none"></audio>
-  </div>
-
-  <!-- Floating Tasbeeh Button -->
-  <button class="fab" id="fabTasbeeh" aria-label="السبحة">
-    <span class="fab__count" id="fabCount">0</span>
-    <span class="fab__label">سبحة</span>
-  </button>
-
-  <!-- Toasts -->
-  <div class="toasts" id="toasts" aria-live="polite" aria-atomic="true"></div>
-
-  <script type="module" src="./assets/app.js"></script>
-</body>
-</html>
